@@ -17,11 +17,13 @@ async function request(url,body){
  try{
   const r=await fetch("/api/status");const d=await r.json();
   if(d.user){location.href=d.user.role==="hod"?"/static/hod.html":"/static/faculty.html";return;}
-  if(d.setup_required && path==="/hod-login"){
-   $("#setup-panel").hidden=false;$("#login-panel").hidden=true;
-  } else if(d.setup_required && path==="/setup"){
-   $("#setup-panel").hidden=false;$("#login-panel").hidden=true;
-  } else {$("#setup-panel").hidden=true;$("#login-panel").hidden=false;}
+  if (d.setup_required) {
+    $("#setup-panel").hidden = false;
+    $("#login-panel").hidden = true;
+  } else{
+    $("#setup-panel").hidden = true;
+    $("#login-panel").hidden = false;
+  }
  }catch(e){$("#message").textContent="Cannot connect to the local server.";}
  roleUI();
 })();
