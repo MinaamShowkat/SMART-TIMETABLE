@@ -1,0 +1,76 @@
+{
+  "subjects": [
+    {
+      "id": "s3-1",
+      "semester": "3",
+      "name": "Operating Systems",
+      "faculty_name": "Ms. Inhas Ashraf"
+    },
+    {
+      "id": "s3-2",
+      "semester": "3",
+      "name": "Multimedia",
+      "faculty_name": "Mr. Mohmad Ibraheem"
+    },
+    {
+      "id": "s3-3",
+      "semester": "3",
+      "name": "Python Programming",
+      "faculty_name": "Ms. Tehseen"
+    },
+    {
+      "id": "s3-4",
+      "semester": "3",
+      "name": "Data Structures",
+      "faculty_name": "Ms. Nabiha"
+    },
+    {
+      "id": "s3-5",
+      "semester": "3",
+      "name": "Stress Management",
+      "faculty_name": "Ms. Uzma"
+    },
+    {
+      "id": "s3-6",
+      "semester": "3",
+      "name": "Digital Electronics",
+      "faculty_name": "Ms. Saima"
+    },
+    {
+      "id": "s5-1",
+      "semester": "5",
+      "name": "Seminar",
+      "faculty_name": "Ms. Inhas Ashraf"
+    },
+    {
+      "id": "s5-2",
+      "semester": "5",
+      "name": "Digital Image Processing (DIP)",
+      "faculty_name": "Mr. Mohmad Ibraheem"
+    },
+    {
+      "id": "s5-3",
+      "semester": "5",
+      "name": "Data Warehousing and Mining (DW&M)",
+      "faculty_name": "Ms. Tehseen"
+    },
+    {
+      "id": "s5-4",
+      "semester": "5",
+      "name": "Network Security (NwS)",
+      "faculty_name": "Ms. Nabiha"
+    },
+    {
+      "id": "s5-5",
+      "semester": "5",
+      "name": "Database Management System (DBMS)",
+      "faculty_name": "Ms. Uzma"
+    },
+    {
+      "id": "s5-6",
+      "semester": "5",
+      "name": "Minor Project",
+      "faculty_name": "Ms. Inhas Ashraf and Mr. Mohmad Ibraheem"
+    }
+  ]
+}
