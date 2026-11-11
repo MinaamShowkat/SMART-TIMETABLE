@@ -357,13 +357,6 @@ function timetablePage(){
  </select>
  </label>
 
- <label>Start Time
- <input name="start" type="time" required>
- </label>
-
- <label>End Time
- <input name="end" type="time" required>
- </label>
 
  <button type="submit" class="button primary" id="update-entry" hidden>
  Update Entry
@@ -466,6 +459,15 @@ function timetablePage(){
   e.preventDefault();
 
   const f=formVal(form);
+  
+  const original=state.tt.entries.find(
+ x=>String(x.id)===String(f.id)
+);
+
+if(!original)return;
+
+f.start=original.start;
+f.end=original.end;
 
   if(!f.id){
    alert("Please select an existing timetable entry using Edit.");
