@@ -46,6 +46,95 @@ async function overview(){
  )}
  </section>`;
 }
+function facultyPage(){
+
+ content.innerHTML=`
+ <section class="panel">
+ <h2>Register Faculty Account</h2>
+
+ <p class="muted">
+ Use the faculty member's real name, email and initial password.
+ </p>
+
+ <form id="faculty-form" class="form-grid">
+
+ <label>Faculty Name
+ <input name="name" required>
+ </label>
+
+ <label>Registered Email
+ <input name="email" type="email" required>
+ </label>
+
+ <label>Initial Password
+ <input name="password" type="password" minlength="8" required>
+ </label>
+
+ <button class="button primary">
+ Add Faculty
+ </button>
+
+ </form>
+ </section>
+
+ <section class="panel">
+ <h2>Registered Faculty</h2>
+
+ ${table(
+ ["Name","Email","Assigned Subjects","Action"],
+ state.faculty.map(f=>`
+ <tr>
+ <td>${f.name}</td>
+ <td>${f.email}</td>
+ <td>${(f.subjects||[]).join(", ")||"Not assigned"}</td>
+ <td class="table-actions">
+ <button data-delete-faculty="${f.id}">
+ Delete
+ </button>
+ </td>
+ </tr>
+ `).join("")
+ )}
+ </section>
+ `;
+
+ $("#faculty-form").onsubmit=async e=>{
+ e.preventDefault();
+
+ try{
+ await api("/api/hod/faculty",{
+ method:"POST",
+ body:JSON.stringify(formVal(e.target))
+ });
+
+ alert("Faculty added successfully.");
+ page("faculty");
+
+ }catch(x){
+ msg(x);
+ }
+ };
+
+ content.querySelectorAll("[data-delete-faculty]").forEach(b=>{
+ b.onclick=async()=>{
+
+ if(confirm("Delete this faculty account?")){
+ try{
+ await api("/api/hod/faculty/"+b.dataset.deleteFaculty,{
+ method:"DELETE"
+ });
+
+ page("faculty");
+
+ }catch(e){
+ msg(e);
+ }
+ }
+
+ };
+ });
+
+}
 function subjectsPage(){content.innerHTML=`<section class="panel"><h2>Add subject</h2><form id="subject-form" class="form-grid"><label>Semester<select name="semester"><option value="3">3rd Semester</option><option value="5">5th Semester</option></select></label><label>Subject name<input name="name" required></label><label>Assigned faculty name<input name="faculty_name" placeholder="Exact faculty name"></label><button class="button primary">Add Subject</button></form></section><section class="panel"><h2>Configured subjects</h2>${table(["Semester","Subject","Faculty"],state.subjects.map(s=>`<tr><td>${s.semester}</td><td>${s.name}</td><td>${s.faculty_name||"Not assigned"}</td></tr>`).join(""))}</section>`;$("#subject-form").onsubmit=async e=>{e.preventDefault();try{await api("/api/hod/subjects",{method:"POST",body:JSON.stringify(formVal(e.target))});page("subjects")}catch(x){msg(x)}}}
 function roomsPage(){content.innerHTML=`<section class="panel"><h2>Add classroom</h2><form id="room-form" class="form-grid"><label>Room number / name<input name="name" required placeholder="Enter actual room number"></label><label>Room capacity<input name="capacity" type="number" min="1" required></label><button class="button primary">Add Classroom</button></form></section><section class="panel"><h2>Classrooms</h2>${table(["Room","Capacity","Action"],state.rooms.map(r=>`<tr><td>${r.name}</td><td>${r.capacity}</td><td class="table-actions"><button data-delete-room="${r.id}">Delete</button></td></tr>`).join(""))}</section>`;$("#room-form").onsubmit=async e=>{e.preventDefault();try{await api("/api/hod/rooms",{method:"POST",body:JSON.stringify(formVal(e.target))});page("rooms")}catch(x){msg(x)}};content.querySelectorAll("[data-delete-room]").forEach(b=>b.onclick=async()=>{if(confirm("Delete classroom?"))try{await api("/api/hod/rooms/"+b.dataset.deleteRoom,{method:"DELETE"});page("rooms")}catch(e){msg(e)}})}
 function timingsPage(){let t=state.timings;content.innerHTML=`<section class="panel"><h2>Working days</h2><form id="timing-form"><div class="form-grid"><label>Working days (comma separated)<input name="days" value="${t.working_days.join(", ")}"></label></div><h2>Periods and break</h2><div class="table-wrap"><table class="data-table"><thead><tr><th>Name</th><th>Start (24-hour)</th><th>End (24-hour)</th><th>Type</th></tr></thead><tbody>${t.periods.map((p,i)=>`<tr><td><input name="name${i}" value="${p.name}" required></td><td><input name="start${i}" value="${p.start}" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" required></td><td><input name="end${i}" value="${p.end}" required></td><td><select name="kind${i}"><option value="class" ${p.kind==="class"?"selected":""}>Class</option><option value="break" ${p.kind==="break"?"selected":""}>Break</option></select></td></tr>`).join("")}</tbody></table></div><button class="button primary" style="margin-top:15px">Save Timing Settings</button></form></section>`;
