@@ -255,7 +255,8 @@ class Handler(SimpleHTTPRequestHandler):
                     if old["day"]==day and overlap(old,new):
                         if old["faculty_id"]==faculty_id: raise ValueError("Faculty has another class at this time.")
                         if old["room_id"]==room_id: raise ValueError("Classroom is already booked at this time.")
-                        if old["semester"]==sem: raise ValueError("This semester already has a class at this time.")
+                        if old["semester"]==sem and old.get ("section","A")==new.get("section","A"):
+                            raise ValueError("This section already has a class at this time.")
                 existing=next((i for i,x in enumerate(td["entries"]) if x["id"]==new["id"]),None)
                 if existing is None: td["entries"].append(new)
                 else: td["entries"][existing]=new
